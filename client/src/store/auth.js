@@ -46,6 +46,14 @@ export default {
         commit('set_token', null)
         commit('set_user', null)
       }
+    },
+
+    signOut({ commit }) {
+      return AuthService.logout().then(() => {
+        commit('set_token', null)
+        commit('set_user', null)
+      })
     }
+
   }
 }

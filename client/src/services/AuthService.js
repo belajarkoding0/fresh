@@ -7,6 +7,9 @@ class AuthService {
   dashboard() {
     return http.get("dashboard")
   }
+  logout() {
+    return http.post("auth/logout")
+  }
 }
 
 export default new AuthService

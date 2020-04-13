@@ -17,7 +17,7 @@
         <div class="navbar-nav">
           <template v-if="authenticated">
             <router-link :to="{name: 'dashboard'}" class="nav-item nav-link">Dashboard</router-link>
-            <a class="nav-item nav-link" href="#">Sign out</a>
+            <a href="#" class="nav-item nav-link" @click="signout">Sign out</a>
             <span class="navbar-text">{{ user.name }}</span>
           </template>
           <template v-else>
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   computed: {
@@ -39,6 +39,18 @@ export default {
       authenticated: "auth/authenticated",
       user: "auth/user"
     })
+  },
+  methods: {
+    ...mapActions({
+      signOut: "auth/signOut"
+    }),
+    signout() {
+      this.signOut().then(() => {
+        this.$router.replace({
+          name: "home"
+        });
+      });
+    }
   }
 };
 </script>
