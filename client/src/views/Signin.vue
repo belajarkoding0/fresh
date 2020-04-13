@@ -9,7 +9,7 @@
                 <v-toolbar-title>Login</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
-                <v-form @submit.prevent="signin" @keydown="form.onKeydown($event)">
+                <v-form @submit.prevent="signin">
                   <v-text-field
                     v-model="form.email"
                     label="Enter your email"
@@ -46,7 +46,8 @@
 </template>
 
 <script>
-import AuthService from "../services/AuthService";
+// import AuthService from "../services/AuthService";
+import { mapActions } from "vuex";
 
 export default {
   name: "signin",
@@ -56,21 +57,25 @@ export default {
       email: "",
       password: ""
     },
-    valid: true,
+    valid: false,
     emailRules: [
       v => !!v || "E-mail is required",
       v => /.+@.+/.test(v) || "E-mail must be valid"
     ]
   }),
   methods: {
-    async signin() {
-      AuthService.login(this.form)
-        .then(result => {
-          this.form = result.data;
-          console.log(this.form);
+    ...mapActions({
+      signIn: "auth/signIn"
+    }),
+    signin() {
+      this.signIn(this.form)
+        .then(() => {
+          this.$router.replace({
+            name: "dashboard"
+          });
         })
-        .catch(err => {
-          console.log(err);
+        .catch(() => {
+          console.log("failed");
         });
     }
   }

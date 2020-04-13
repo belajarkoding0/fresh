@@ -5,5 +5,5 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
     Route::post('logout', 'LoginController@logout');
     Route::post('register', 'RegisterController');
 });
-Route::get('home', 'HomeController')
-    ->name('home');
+Route::get('dashboard', 'DashboardController')
+    ->name('dashboard');

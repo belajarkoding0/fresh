@@ -15,12 +15,30 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <router-link :to="{name: 'home'}" class="nav-item nav-link">Home</router-link>
-          <router-link :to="{name: 'signin'}" class="nav-item nav-link">Sign in</router-link>
-          <router-link :to="{name: 'dashboard'}" class="nav-item nav-link">Dashboard</router-link>
-          <a class="nav-item nav-link" href="#">Sign out</a>
+          <template v-if="authenticated">
+            <router-link :to="{name: 'dashboard'}" class="nav-item nav-link">Dashboard</router-link>
+            <a class="nav-item nav-link" href="#">Sign out</a>
+            <span class="navbar-text">{{ user.name }}</span>
+          </template>
+          <template v-else>
+            <router-link :to="{name: 'home'}" class="nav-item nav-link">Home</router-link>
+            <router-link :to="{name: 'signin'}" class="nav-item nav-link">Sign in</router-link>
+          </template>
         </div>
       </div>
     </nav>
   </div>
 </template>
+
+<script>
+import { mapGetters } from "vuex";
+
+export default {
+  computed: {
+    ...mapGetters({
+      authenticated: "auth/authenticated",
+      user: "auth/user"
+    })
+  }
+};
+</script>
