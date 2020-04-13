@@ -27,19 +27,20 @@ export default {
 
   actions: {
     async signIn({ dispatch }, credentials) {
-      let result = AuthService.login(credentials)
-      dispatch('attempt', (await result).data.token)
+      let result = await AuthService.login(credentials)
+      return dispatch('attempt', result.data.token)
     },
 
-    async attempt({ commit }, token) {
-      commit('set_token', token)
+    async attempt({ commit, state }, token) {
+      if (token) {
+        commit('set_token', token)
+      }
 
+      if (!state.token) {
+        return
+      }
       try {
-        let respone = await AuthService.dashboard({
-          headers: {
-            "Authorization": 'Bearer ' + token
-          }
-        })
+        let respone = await AuthService.dashboard()
         commit('set_user', respone.data)
       } catch (error) {
         commit('set_token', null)

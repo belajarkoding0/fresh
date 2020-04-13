@@ -4,8 +4,8 @@ class AuthService {
   login(data) {
     return http.post("auth/login", data)
   }
-  dashboard(data) {
-    return http.get("dashboard", data)
+  dashboard() {
+    return http.get("dashboard")
   }
 }
 
